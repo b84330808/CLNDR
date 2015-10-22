@@ -1,82 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="styles/clndr.css">
+    <title>calendar clndr</title>
+    <meta charset="UTF-8">
 </head>
-<body>
-  <div class="container">
-    <div class="cal1">
-    </div>
-    <div class="cal2">
-
-      <script type="text/template" id="template-calendar">
-        <div class="clndr-controls">
-          <div class="clndr-previous-button">&lsaquo;</div>
-          <div class="month"><%= intervalStart.format('M/DD') + ' &mdash; ' + intervalEnd.format('M/DD') %></div>
-          <div class="clndr-next-button">&rsaquo;</div>
-        </div>
-        <div class="clndr-grid">
-          <div class="days-of-the-week">
-            <% _.each(daysOfTheWeek, function(day) { %>
-              <div class="header-day"><%= day %></div>
-            <% }); %>
-            <div class="days">
-              <% _.each(days, function(day) { %>
-                <div class="<%= day.classes %>"><%= day.day %></div>
-              <% }); %>
-            </div>
-          </div>
-        </div>
-        <div class="clndr-today-button">Today</div>
-      </script>
-
-    </div>
-
-    <div class="cal3">
-
-      <script type="text/template" id="template-calendar-months">
-        <div class="clndr-controls top">
-          <div class="clndr-previous-button">&lsaquo;</div>
-          <div class="clndr-next-button">&rsaquo;</div>
-        </div>
-        <div class="clearfix">
-        <% _.each(months, function(cal) { %>
-          <div class="cal">
-            <div class="clndr-controls">
-              <div class="month"><%= cal.month.format('MMMM') %></div>
-            </div>
-            <div class="clndr-grid">
-              <div class="days-of-the-week">
-                <% _.each(daysOfTheWeek, function(day) { %>
-                  <div class="header-day"><%= day %></div>
-                <% }); %>
-                <div class="days">
-                  <% _.each(cal.days, function(day) { %>
-                    <div class="<%= day.classes %>"><%= day.day %></div>
-                  <% }); %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% }); %>
-        </div>
-        <div class="clndr-today-button">Today</div>
-      </script>
-
-    </div>
-  </div>
+<link rel=stylesheet type="text/css" href="styles/style.css">
+<div id="calendar"></div>
+<script src="http://momentjs.com/downloads/moment.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js"></script>
+<script src="../src/clndr.js"></script>
+<script type="text/javascript">
+$('#calendar').clndr({
+    daysOfTheWeek: ['日', '一', '二', '三', '四', '五', '六'],
 
 
-  <script src="json2.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
-  <script src= "moment-2.8.3.js"></script>
 
-  <script src="../src/clndr.js"></script>
-  <script src="site.js"></script>
+    clickEvents: {
+        click: function(target) {
+            colorChange($(target['element']));
+            //Todo: save into database
+        }
+    },
+    doneRendering: function() {
+        $('.clndr-previous-button').parent('div').click(function() {
+            calendar.back();
+        });
+        $('.clndr-next-button').parent('div').click(function() {
+            calendar.forward();
+        });
+        $('.month').html(titleTranslator($('.month').html()));
+    },
 
-  <!-- Enable live-reloading in the browser without an extension -->
-  <script src="http://localhost:35729/livereload.js"></script>
-</body>
+    ready: function() {
+        //Todo: get something from database
+    },
+
+    constraints: {
+        startDate: '2015-01-01'
+    },
+
+});
+
+
+
+function titleTranslator(date) {
+    var firstSpace = date.search(' ');
+    var month = date.substring(0, firstSpace);
+    var year = date.substring(firstSpace)
+
+    var chineseMonth = {
+        'January': '一月',
+        'February': '二月',
+        'March': '三月',
+        'April': '四月',
+        'May': '五月',
+        'June': '六月',
+        'July': '七月',
+        'August': '八月',
+        'September': '九月',
+        'October': '十月',
+        'November': '十一月',
+        'December': '十二月'
+    }
+    month = chineseMonth[month];
+    return year + '&nbsp;&nbsp;•&nbsp;&nbsp;' + month;
+}
+
+function colorChange(target) {
+    if (target.hasClass('classDay')) {
+        target.removeClass('classDay');
+        target.addClass('absentDay');
+        // database oprarion
+    } else if (target.hasClass('absentDay')) {
+        target.removeClass('absentDay');
+        target.addClass('breakoffDay');
+        // database oprarion
+    } else if (target.hasClass('breakoffDay')) {
+        target.removeClass('breakoffDay');
+        // database oprarion delete
+    } else {
+        target.addClass('classDay');
+        // database oprarion
+    }
+}
+</script>
+
 </html>

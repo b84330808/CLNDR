@@ -1,0 +1,86 @@
+#calendar{
+  width: 350px;
+}
+
+.month{
+  display: inline-block;
+  width: 230px;
+  margin: 10px ;
+}
+
+.clndr-controls{
+  color:#ffffff;
+  background-color: #12466D;
+  text-align: center;
+
+}
+
+.clndr-control-button{
+  display: inline-block;
+  cursor: pointer;
+  top:17px;
+}
+
+.adjacent-month{
+  color: #cccccc;
+}
+
+
+
+.clndr-table, .clndr-table td, .clndr-table th {
+    border: 1px solid #cccccc;
+}
+
+
+
+.clndr-table{
+  color:#666666;
+  border-top: 0px;
+  width: 100%;
+  text-align: center;
+  
+}
+
+.clndr-table td{
+  height: 30px;
+}
+
+.day-contents{
+  margin: 0px;
+}
+
+::selection {
+  background: none; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: none; /* Gecko Browsers */
+}
+
+.header-days{
+  color: #12466D;
+  font-weight: 900;
+}
+
+.event {
+  color: red;
+}
+
+.today {
+    font-weight: 900;
+    color: black;
+}
+
+.breakoffDay {
+    background-color: #0aa961;
+    color: white;
+}
+
+.absentDay {
+    background-color: red;
+    color: white;
+}
+
+.classDay {
+    background-color: #0000ff;
+    color: white;
+}

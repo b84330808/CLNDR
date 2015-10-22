@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>calendar clndr</title>
+    <meta charset="UTF-8">
+</head>
+<link rel=stylesheet type="text/css" href="style/style.css">
+    <div id="calendar"></div>
+<script src="http://momentjs.com/downloads/moment.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="http://underscorejs.org/underscore-min.js"></script>
+<script src="https://cdn.rawgit.com/kylestetz/CLNDR/master/clndr.min.js"></script>
+
+
+
+
+
+<script type="text/javascript">
+$('#calendar').clndr({
+	daysOfTheWeek: ['日', '一', '二','三','四','五','六'],
+
+
+
+    clickEvents:{
+		click: function(target) {
+			colorChange($(target['element']));
+			
+			//Todo: save into database
+        }
+    },
+
+
+    ready: function(){ 
+    	//Todo: get something from database
+    },
+
+    constraints: {
+    	startDate: '2015-01-01'
+  	},
+
+});
+
+
+function colorChange(target){
+	if(target.hasClass('classDay')){
+		target.removeClass('classDay');
+		target.addClass('absentDay');
+	}else if(target.hasClass('absentDay')){
+		target.removeClass('absentDay');
+		target.addClass('breakoffDay');
+	}else if (target.hasClass('breakoffDay')){
+		target.removeClass('breakoffDay');
+	}else{
+		target.addClass('classDay');
+	}
+}
+
+
+
+
+</script>
+
+</html>
